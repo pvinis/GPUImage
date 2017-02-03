@@ -383,6 +383,27 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
 
 }
 
+- (void)switchToDualCamera
+{
+	if (NSClassFromString(@"AVCaptureDeviceDiscoverySession") == nil) {
+		return;
+	}
+
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+	AVCaptureDeviceDiscoverySession *session = [AVCaptureDeviceDiscoverySession
+												discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInDualCamera]
+												mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
+	AVCaptureDevice *device = [session.devices firstObject];
+	if (device == nil)
+	{
+		return;
+	}
+
+	[self switchToCameraDevice:device];
+#endif
+
+}
+
 - (void)switchToWideAngleCamera
 {
     if (NSClassFromString(@"AVCaptureDeviceDiscoverySession") == nil) {
@@ -540,6 +561,28 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
     return ([session.devices count] > 0);
 #else
     return YES;
+#endif
+}
+
++ (BOOL)isBuiltInDualCameraPresent;
+{
+	return [GPUImageVideoCamera isBuiltInDualCameraPresent];
+}
+
+- (BOOL)isBuiltInDualCameraPresent
+{
+	if (NSClassFromString(@"AVCaptureDeviceDiscoverySession") == nil) {
+		return NO;
+	}
+
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+	AVCaptureDeviceDiscoverySession *session = [AVCaptureDeviceDiscoverySession
+												discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInDualCamera]
+												mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
+
+	return ([session.devices count] > 0);
+#else
+	return NO;
 #endif
 }
 

@@ -63,6 +63,7 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
 @property (readonly, getter = isBackFacingCameraPresent) BOOL backFacingCameraPresent;
 @property (readonly, getter = isBuiltInWideAngleCameraPresent) BOOL wideAngleCameraPresent;
 @property (readonly, getter = isBuiltInTelephotoCameraPresent) BOOL telephotoCameraPresent;
+@property (readonly, getter = isBuiltInDualCameraPresent) BOOL dualCameraPresent;
 
 /// This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
 @property(readwrite, nonatomic) BOOL runBenchmark;
@@ -152,6 +153,8 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
  */
 - (void)switchToWideAngleCamera;
 
+- (void)switchToDualCamera;
+
 /// @name Benchmarking
 
 /** When benchmarking is enabled, this will keep a running average of the time from uploading, processing, and final recording or display
@@ -165,5 +168,6 @@ void setColorConversion709( GLfloat conversionMatrix[9] );
 
 + (BOOL)isBuiltInWideAngleCameraPresent;
 + (BOOL)isBuiltInTelephotoCameraPresent;
++ (BOOL)isBuiltInDualCameraPresent;
 
 @end
